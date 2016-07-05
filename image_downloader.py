@@ -6,8 +6,7 @@ import errno
 import re
 
 DEFAULT_OUTPUT_PATH = os.getcwd() + os.path.sep + 'images' + os.path.sep
-DEFAULT_LOG_PATH = os.getcwd() + os.path.sep + 'images_log' + os.path.sep
-LOG_FILE_NAME = 'img_downloader.log'
+DEFAULT_LOG_PATH = os.getcwd() + os.path.sep + 'images_log' + os.path.sep + 'img_downloader.log'
 
 
 def get_arg_parser():
@@ -15,9 +14,9 @@ def get_arg_parser():
     :return: parser obj
     """
     parser = argparse.ArgumentParser(description='Image files downloader')
-    parser.add_argument('--inputfile', type=str, help='File path to read image urls')
+    parser.add_argument('--inputfile', type=str, required=True, help='File path to read image urls')
     parser.add_argument('--outputpath', type=str, default=DEFAULT_OUTPUT_PATH, help='Directory path to store images')
-    parser.add_argument('--logpath', type=str, default=DEFAULT_LOG_PATH, help='Directory path for logging messages')
+    parser.add_argument('--logfile', type=str, default=DEFAULT_LOG_PATH, help='Directory path for logging messages')
     return parser
 
 
@@ -93,7 +92,6 @@ def download_image(url, download_file_path):
         return False
 
 
-#
 def download_images_from_file(input_path, output_path):
     """
     downloads all image files from a given file and stores it in the given output path
@@ -131,7 +129,7 @@ def main():
 
     input_path = args.inputfile
     output_path = args.outputpath
-    log_path = args.logpath + os.path.sep + LOG_FILE_NAME
+    log_path = args.logfile
 
     create_directory_with_file(log_path)
     logging.basicConfig(format='%(levelname)s %(asctime)s %(message)s', level=logging.INFO, filename=log_path)
